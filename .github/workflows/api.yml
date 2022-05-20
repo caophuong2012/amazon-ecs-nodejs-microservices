@@ -54,15 +54,15 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           mask-aws-account-id: 'no'
 
-      # Provision
-      - name: Deploy to AWS CloudFormation
-        uses: aws-actions/aws-cloudformation-github-deploy@v1
-        with:
-          name: API-v2
-          template: 3-microservices/infrastructure/test-stack.yml
-          no-fail-on-empty-changeset: "1"
-          parameter-overrides: "EC2InstanceType=t2.micro"
-          
+      # # Provision
+      # - name: Deploy to AWS CloudFormation
+      #   uses: aws-actions/aws-cloudformation-github-deploy@v1
+      #   with:
+      #     name: API-v2
+      #     template: 3-microservices/infrastructure/test-stack.yml
+      #     no-fail-on-empty-changeset: "1"
+      #     parameter-overrides: "EC2InstanceType=t2.micro"
+
       # Provision
       - name: Deploy to AWS CloudFormation
         uses: aws-actions/aws-cloudformation-github-deploy@v1
