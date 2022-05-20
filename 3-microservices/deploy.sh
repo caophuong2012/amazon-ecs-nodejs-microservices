@@ -1,5 +1,9 @@
+#!/usr/bin/env bash
+
 REGION=$1
 STACK_NAME=$2
+
+cd ./3-microservices
 
 DEPLOYABLE_SERVICES=(
 	users
@@ -21,7 +25,8 @@ QUERY=$(cat <<-EOF
 	Stacks[0].Outputs[?OutputKey==\`Url\`].OutputValue,
 	Stacks[0].Outputs[?OutputKey==\`VPCId\`].OutputValue
 ]
-EOF)
+EOF
+)
 
 RESULTS=$(aws cloudformation describe-stacks \
 	--stack-name $STACK_NAME \
@@ -38,7 +43,8 @@ VPCID=${RESULTS_ARRAY[4]}
 
 printf "${PRIMARY}* Authenticating with EC2 Container Repository${NC}\n";
 
-`aws ecr get-login --region $REGION --no-include-email`
+#`aws ecr get-login --region $REGION --no-include-email`
+echo $(aws ecr get-login-password --region ap-southeast-1) | docker login --password-stdin --username phuongcao 074950285369.dkr.ecr.us-east-1.amazonaws.com/ecsworker
 
 # Tag for versioning the container images, currently set to timestamp
 TAG=`date +%s`
@@ -92,7 +98,8 @@ do
 			}],
 			"essential": true
 		}]
-	EOF)
+	EOF
+	)
 
 	TASK_DEFINITION_ARN=`aws ecs register-task-definition \
 		--region $REGION \
@@ -173,7 +180,8 @@ do
 					"containerName": "$SERVICE_NAME",
 					"containerPort": 3000
 				}]
-			EOF)
+			EOF
+			)
 
 			RESULT=`aws ecs create-service \
 				--region $REGION \
