@@ -2,6 +2,7 @@
 
 REGION=$1
 STACK_NAME=$2
+ECR_REPOSITORY=awst-api-v2
 
 cd ./3-microservices
 
@@ -44,7 +45,8 @@ VPCID=${RESULTS_ARRAY[4]}
 printf "${PRIMARY}* Authenticating with EC2 Container Repository${NC}\n";
 
 #`aws ecr get-login --region $REGION --no-include-email`
-echo $(aws ecr get-login-password --region ap-southeast-1) | docker login --password-stdin --username phuongcao 074950285369.dkr.ecr.us-east-1.amazonaws.com/ecsworker
+#echo $(aws ecr get-login-password --region ap-southeast-1) | docker login --password-stdin --username phuongcao 074950285369.dkr.ecr.us-east-1.amazonaws.com/ecsworker
+aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 074950285369.dkr.ecr.ap-southeast-1.amazonaws.com
 
 # Tag for versioning the container images, currently set to timestamp
 TAG=`date +%s`
@@ -54,21 +56,24 @@ do
 	printf "${PRIMARY}* Locating the ECR repository for service \`${SERVICE_NAME}\`${NC}\n";
 
 	# Find the ECR repo to push to
+	printf "${PRIMARY}* Finding ECR repository for service \`${SERVICE_NAME}\`${NC}\n";
 	REPO=`aws ecr describe-repositories \
 		--region $REGION \
-		--repository-names "$SERVICE_NAME" \
+		--repository-names "$ECR_REPOSITORY/$SERVICE_NAME" \
 		--query "repositories[0].repositoryUri" \
 		--output text`
-
+			
 	if [ "$?" != "0" ]; then
 		# The repository was not found, create it
 		printf "${PRIMARY}* Creating new ECR repository for service \`${SERVICE_NAME}\`${NC}\n";
 
 		REPO=`aws ecr create-repository \
 			--region $REGION \
-			--repository-name "$SERVICE_NAME" \
+			--repository-name "$ECR_REPOSITORY/$SERVICE_NAME" \
 			--query "repository.repositoryUri" \
 			--output text`
+		printf "${PRIMARY}* Getting ECR repository: \`${REPO}\`${NC}\n"
+
 	fi
 
 	printf "${PRIMARY}* Building \`${SERVICE_NAME}\`${NC}\n";
@@ -77,10 +82,8 @@ do
 	(cd services/$SERVICE_NAME && npm install);
 	docker build -t $SERVICE_NAME ./services/$SERVICE_NAME
 	docker tag $SERVICE_NAME:latest $REPO:$TAG
-
 	# Push the tag up so we can make a task definition for deploying it
 	printf "${PRIMARY}* Pushing \`${SERVICE_NAME}\`${NC}\n";
-
 	docker push $REPO:$TAG
 
 	printf "${PRIMARY}* Creating new task definition for \`${SERVICE_NAME}\`${NC}\n";
@@ -89,7 +92,7 @@ do
 	CONTAINER_DEFINITIONS=$(cat <<-EOF
 		[{
 			"name": "$SERVICE_NAME",
-			"image": "$REPO:$TAG",
+			"image": "$ECR_REPOSITORY/$REPO:$TAG",
 			"cpu": 256,
 			"memory": 256,
 			"portMappings": [{

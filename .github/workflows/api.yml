@@ -54,56 +54,20 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           mask-aws-account-id: 'no'
 
-      # # Provision
-      # - name: Deploy to AWS CloudFormation
-      #   uses: aws-actions/aws-cloudformation-github-deploy@v1
-      #   with:
-      #     name: API-v2
-      #     template: 3-microservices/infrastructure/test-stack.yml
-      #     no-fail-on-empty-changeset: "1"
-      #     parameter-overrides: "EC2InstanceType=t2.micro"
-
-      # Provision
       - name: Deploy to AWS CloudFormation
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           name: API-v2-1
           template: 3-microservices/infrastructure/ecs.yml
           no-fail-on-empty-changeset: "1"
-      
-      # App deployment
-      - name: Run app deployment
-        id: app-deployment
-        # env:
-        #   AWS_REGION: ${{ env.AWS_REGION }}
-        run: |
-          ./3-microservices/deploy.sh ap-southeast-1 API-v2-1
-
-      # - name: Auth to Amazon ECR
-      #   id: login-ecr
-      #   uses: aws-actions/amazon-ecr-login@v1
-
-      # - name: Build, tag, and push image to Amazon ECR
-      #   id: build-image
-      #   env:
-      #     ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-      #     IMAGE_TAG: ${{ github.run_number }}
-      #   run: |
-      #     # Build a docker container and
-      #     # push it to ECR so that it can
-      #     # be deployed to ECS.
-
-      #     docker-compose build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG \
-      #                 -t $ECR_REGISTRY/$ECR_REPOSITORY:latest ./identity
-      #     # docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG --all-tags
-      #     docker push $ECR_REGISTRY/$ECR_REPOSITORY --all-tags
-      #     echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
   deploy-development:
     name: Deploy To Development
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/development'
     environment: 'Development'
     needs: build-publish
+    
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -121,32 +85,20 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           role-external-id: ${{ secrets.AWS_ROLE_EXTERNAL_ID }}
 
-      - name: Auth to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
-
-      - name: (DEVELOPMENT) Fill in the new image ID in the Amazon ECS task definition
-        id: development-task-def
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
-        with:
-          task-definition: ${{ env.DEVELOPMENT_ECS_TASK_DEFINITION }}
-          container-name: ${{ env.DEVELOPMENT_CONTAINER_NAME }}
-          image: ${{ needs.build-publish.outputs.image }}
-
-      - name: (DEVELOPMENT) Deploy Amazon ECS task definition
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-        with:
-          task-definition: ${{ steps.development-task-def.outputs.task-definition }}
-          service: ${{ env.DEVELOPMENT_ECS_SERVICE }}
-          cluster: ${{ env.DEVELOPMENT_ECS_CLUSTER }}
-          wait-for-service-stability: true
-
+      - name: Run app deployment
+        id: app-deployment
+        env:
+          REGION: ${{ env.AWS_REGION }}
+        run: |
+          ./3-microservices/deploy.sh $REGION $DEVELOPMENT_ECS_SERVICE
 
   deploy-staging:
     name: Deploy To Staging
     runs-on: ubuntu-latest
     environment: 'Staging'
-    needs: build-publish
+    if: github.ref == 'refs/heads/staging'
+    # needs: [build-publish, deploy-development]
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -163,31 +115,19 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           mask-aws-account-id: 'no'
 
-      - name: Auth to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
-
-      - name: (STAGING) Fill in the new image ID in the Amazon ECS task definition
-        id: staging-task-def
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
-        with:
-          task-definition: ${{ env.STAGING_ECS_TASK_DEFINITION }}
-          container-name: ${{ env.STAGING_CONTAINER_NAME }}
-          image: ${{ needs.build-publish.outputs.image }}
-
-      - name: (STAGING) Deploy Amazon ECS task definition
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-        with:
-          task-definition: ${{ steps.staging-task-def.outputs.task-definition }}
-          service: ${{ env.STAGING_ECS_SERVICE }}
-          cluster: ${{ env.STAGING_ECS_CLUSTER }}
-          wait-for-service-stability: true
+      - name: Run app deployment
+        id: app-deployment
+        env:
+          REGION: ${{ env.AWS_REGION }}
+        run: |
+          ./3-microservices/deploy.sh $REGION $DEVELOPMENT_ECS_SERVICE
 
   deploy-production:
     name: Deploy To Production
     runs-on: ubuntu-latest
     environment: 'Production'
-    needs: [build-publish, deploy-staging]
+    if: github.ref == 'refs/heads/production'
+    # needs: [build-publish, deploy-staging]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -204,22 +144,9 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           mask-aws-account-id: 'no'
 
-      - name: Auth to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
-
-      - name: (PRODUCTION) Fill in the new image ID in the Amazon ECS task definition
-        id: production-task-def
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
-        with:
-          task-definition: ${{ env.PRODUCTION_ECS_TASK_DEFINITION }}
-          container-name: ${{ env.PRODUCTION_CONTAINER_NAME }}
-          image: ${{ needs.build-publish.outputs.image }}
-
-      - name: (PRODUCTION) Deploy Amazon ECS task definition
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-        with:
-          task-definition: ${{ steps.production-task-def.outputs.task-definition }}
-          service: ${{ env.PRODUCTION_ECS_SERVICE }}
-          cluster: ${{ env.PRODUCTION_ECS_CLUSTER }}
-          wait-for-service-stability: true
+      - name: Run app deployment
+        id: app-deployment
+        env:
+          REGION: ${{ env.AWS_REGION }}
+        run: |
+          ./3-microservices/deploy.sh $REGION $DEVELOPMENT_ECS_SERVICE
