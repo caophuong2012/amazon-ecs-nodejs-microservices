@@ -1,23 +1,33 @@
 package main
 
 import (
-	"fmt"
 	"identity/cmd/handlers/routes"
 	"identity/utils"
+	"os"
+
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
 
 	"net/http"
 )
 
 func main() {
+
+	log.Logger = zerolog.New(os.Stdout).With().Timestamp().Caller().Logger()
+	if utils.GetWithDefault("ENV", "DEV") != "PROD" {
+		zerolog.SetGlobalLevel(zerolog.DebugLevel)
+	}
+
 	r := routes.Route()
+
 	_, err := utils.InitDatabase()
 	if err != nil {
-		panic(err)
+		log.Fatal().
+			Err(err).
+			Msg("Failed to start the database")
 	}
-	// TODO : Need to setup logger later
-	fmt.Println("init DB success")
 
-	port := utils.GetWithDefault("API_PORT", "3001")
-	fmt.Println("listen on port " + port)
+	port := utils.GetWithDefault("API_PORT", "3000")
+	log.Info().Msg("Identity service start on port " + port)
 	http.ListenAndServe(":"+port, r)
 }

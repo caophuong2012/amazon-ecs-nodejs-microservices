@@ -12,7 +12,6 @@ func InitDatabase() (*sql.DB, error) {
 	dbUrl := GetWithDefault("DB_URL", "postgres://postgres:postgres@localhost:5432/awstdev_identity?sslmode=disable")
 
 	db, err := sql.Open("postgres", dbUrl)
-
 	if err != nil {
 		return nil, err
 	}
