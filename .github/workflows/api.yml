@@ -65,7 +65,9 @@ jobs:
     name: Deploy To Development
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/development'
-    environment: 'Development'
+    environment: 
+      name: 'Development'
+      url: 'https://api-dev-v2.artwallstreet.io/'
     needs: build-publish
     
     steps:
@@ -95,7 +97,9 @@ jobs:
   deploy-staging:
     name: Deploy To Staging
     runs-on: ubuntu-latest
-    environment: 'Staging'
+    environment:
+      name: 'Staging'
+      url: 'https://api-staging-v2.artwallstreet.io/'
     if: github.ref == 'refs/heads/staging'
     # needs: [build-publish, deploy-development]
 
@@ -125,10 +129,11 @@ jobs:
   deploy-production:
     name: Deploy To Production
     runs-on: ubuntu-latest
-    environment: 'Production'
+    environment:
+      name: 'Production'
+      url: 'https://api-production-v2.artwallstreet.io/'
     if: github.ref == 'refs/heads/production'
     # needs: [build-publish, deploy-staging]
-    
     steps:
       - name: Checkout
         uses: actions/checkout@v2
