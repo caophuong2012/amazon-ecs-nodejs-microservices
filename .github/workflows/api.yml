@@ -97,7 +97,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: 'Staging'
     if: github.ref == 'refs/heads/staging'
-    needs: [build-publish, deploy-development]
+    # needs: [build-publish, deploy-development]
 
     steps:
       - name: Checkout
@@ -127,7 +127,8 @@ jobs:
     runs-on: ubuntu-latest
     environment: 'Production'
     if: github.ref == 'refs/heads/production'
-    needs: [build-publish, deploy-staging]
+    # needs: [build-publish, deploy-staging]
+    
     steps:
       - name: Checkout
         uses: actions/checkout@v2
