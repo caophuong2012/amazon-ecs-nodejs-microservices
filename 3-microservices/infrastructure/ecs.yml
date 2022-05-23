@@ -3,7 +3,7 @@ Parameters:
   EnvironmentType:
     Description: 'Specify the Environment type of the stack.'
     Type: String
-    Default: dev
+    Default: development
     AllowedValues:
       - development
       - staging
