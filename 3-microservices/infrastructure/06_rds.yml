@@ -60,7 +60,7 @@ Resources:
   WebAppInstance:
     Type: AWS::EC2::Instance
     Properties:
-      AvailabilityZone: !Ref AvailabilityZone
+      AvailabilityZone: ap-southeast-1
       ImageId: !Ref AmiID
       InstanceType: !FindInMap [EnvironmentToInstanceType, !Ref EnvironmentType, InstanceType]
       KeyName: !Ref KeyPairName
