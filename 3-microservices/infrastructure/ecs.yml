@@ -314,7 +314,7 @@ Resources:
     Type: AWS::RDS::DBInstance
     Properties:
       DBInstanceIdentifier: !Ref DBInstanceIdentifier
-      DBName: !Join [ '-', [ api-identity-db-security-group, !Ref EnvironmentType ] ]
+      DBName: !Join [ 'z', [ APIIdentityDBSecurity, !Ref EnvironmentType ] ]
       VPCSecurityGroups:
       - !GetAtt DBEC2SecurityGroup.GroupId
       AllocatedStorage: '5'
