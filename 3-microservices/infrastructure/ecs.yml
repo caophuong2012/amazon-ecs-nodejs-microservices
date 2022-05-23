@@ -20,7 +20,8 @@ Parameters:
   DBInstanceIdentifier:
     Type: String
     Default: 'api-identity-db'
-    DBName: !Join [ '-', [ api-identity-db-security-group, !Ref EnvironmentType ] ]
+    Properties:
+      DBName: !Join [ '-', [ api-identity-db-security-group, !Ref EnvironmentType ] ]
   DBUsername:
     NoEcho: 'true'
     Description: Username for Postgresql database access
