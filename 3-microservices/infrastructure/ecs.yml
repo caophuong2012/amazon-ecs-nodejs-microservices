@@ -19,8 +19,8 @@ Parameters:
 
   DBInstanceIdentifier:
     Type: String
-    # Default: 'api-identity-db'
-    Default: !Join [ '-', [ api-identity-db, !Ref EnvironmentType ] ]
+    Default: 'api-identity-db'
+    IdentifierNamet: !Join [ '-', [ api-identity-db-security-group, !Ref EnvironmentType ] ]
   DBUsername:
     NoEcho: 'true'
     Description: Username for Postgresql database access
