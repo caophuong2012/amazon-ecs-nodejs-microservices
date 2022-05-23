@@ -7,10 +7,9 @@ ECR_REPOSITORY=awst-api-v2
 cd ./3-microservices
 
 DEPLOYABLE_SERVICES=(
-	identity
-	# users
-	# threads
-	# posts
+	users
+	threads
+	posts
 );
 
 PRIMARY='\033[0;34m'
@@ -63,7 +62,7 @@ do
 		--repository-names "$ECR_REPOSITORY/$SERVICE_NAME" \
 		--query "repositories[0].repositoryUri" \
 		--output text`
-
+			
 	if [ "$?" != "0" ]; then
 		# The repository was not found, create it
 		printf "${PRIMARY}* Creating new ECR repository for service \`${SERVICE_NAME}\`${NC}\n";
@@ -80,7 +79,7 @@ do
 	printf "${PRIMARY}* Building \`${SERVICE_NAME}\`${NC}\n";
 
 	# Build the container, and assign a tag to it for versioning
-	(cd services/$SERVICE_NAME && npm install);
+	# (cd services/$SERVICE_NAME && npm install);
 	docker build -t $SERVICE_NAME ./services/$SERVICE_NAME
 	docker tag $SERVICE_NAME:latest $REPO:$TAG
 	# Push the tag up so we can make a task definition for deploying it
