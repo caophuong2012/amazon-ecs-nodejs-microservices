@@ -5,8 +5,7 @@ Parameters:
   AvailabilityZone:
     Type: AWS::EC2::AvailabilityZone::Name
     Description: 'AZ'
-    Default: ap-southeast-1
-
+    
   EnvironmentType:
     Description: 'Specify the Environment type of the stack.'
     Type: String
