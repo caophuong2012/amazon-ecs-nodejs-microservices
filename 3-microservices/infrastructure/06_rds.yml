@@ -13,9 +13,9 @@ Parameters:
     Type: String
     Default: dev
     AllowedValues:
-      - dev
-      - test
-      - prod
+      - development
+      - staging
+      - production
   AmiID:
     Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
     Description: 'The ID of the AMI.'
@@ -49,9 +49,9 @@ Parameters:
 
 Mappings:
   EnvironmentToInstanceType:
-    dev:
+    development:
       InstanceType: t2.nano
-    test:
+    staging:
       InstanceType: t2.micro
     prod:
       InstanceType: t2.small

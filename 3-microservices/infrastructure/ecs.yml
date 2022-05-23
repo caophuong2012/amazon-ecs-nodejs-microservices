@@ -1,5 +1,44 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Parameters:
+  EnvironmentType:
+    Description: 'Specify the Environment type of the stack.'
+    Type: String
+    Default: dev
+    AllowedValues:
+      - development
+      - staging
+      - production
+  AmiID:
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Description: 'The ID of the AMI.'
+    Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
+  KeyPairName:
+    Type: String
+    Description: The name of an existing Amazon EC2 key pair in this region to use to SSH into the Amazon EC2 instances.
+    Default: bdevops
+
+  DBInstanceIdentifier:
+    Type: String
+    Default: 'api-identity-db'
+  DBUsername:
+    NoEcho: 'true'
+    Description: Username for Postgresql database access
+    Type: String
+    MinLength: '1'
+    MaxLength: '16'
+    AllowedPattern: '[a-zA-Z][a-zA-Z0-9]*'
+    ConstraintDescription: Must begin with a letter and contain only alphanumeric characters.
+    Default: 'postgres'
+  DBPassword:
+    NoEcho: 'true'
+    Description: Password for Postgresql database access
+    Type: String
+    MinLength: '8'
+    MaxLength: '41'
+    AllowedPattern: '[a-zA-Z0-9]*'
+    ConstraintDescription: Must contain only alphanumeric characters.
+    Default: 'ijSEnURsCCGfE2K'
+
   DesiredCapacity:
     Type: Number
     Default: '1'
@@ -29,6 +68,14 @@ Mappings:
       CIDR: '10.0.0.0/24'
     PublicTwo:
       CIDR: '10.0.1.0/24'
+    EnvironmentToInstanceType:
+      development:
+        InstanceType: t2.nano
+      staging:
+        InstanceType: t2.micro
+      prod:
+        InstanceType: t2.small
+
 Resources:
   # VPC into which stack instances will be placed
   VPC:
@@ -244,6 +291,57 @@ Resources:
       Path: /
       Roles: [!Ref 'EC2Role']
 
+  # RDS
+  WebAppSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: !Join [ '-', [ api-identity-security-group, !Ref EnvironmentType ] ]
+      GroupDescription: 'Allow HTTP/HTTPS and SSH inbound and outbound traffic'
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+  APIIdentityDatabase:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      DBInstanceIdentifier: !Ref DBInstanceIdentifier
+      VPCSecurityGroups:
+      - !GetAtt DBEC2SecurityGroup.GroupId
+      AllocatedStorage: '5'
+      DBInstanceClass: db.t3.micro
+      Engine: postgres
+      MasterUsername: !Ref DBUsername
+      MasterUserPassword: !Ref DBPassword
+      Tags:
+        - Key: Name
+          Value: !Join [ '-', [ api-rds, !Ref EnvironmentType ] ]
+    DeletionPolicy: Snapshot
+    UpdateReplacePolicy: Snapshot
+
+  DBEC2SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: !Join [ '-', [ api-identity-db-security-group, !Ref EnvironmentType ] ]
+      GroupDescription: Allow postgres inbound traffic
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: 5432
+        ToPort: 5432
+        SourceSecurityGroupName:
+          Ref: WebAppSecurityGroup
+      Tags:
+        - Key: Name
+          Value: !Join [ '-', [ api-identity-db-security-group, !Ref EnvironmentType ] ]
+
 Outputs:
   ClusterName:
     Description: The name of the ECS cluster, used by the deploy script
@@ -268,3 +366,6 @@ Outputs:
     Value: !Ref 'VPC'
     Export:
       Name: !Join [':', [!Ref "AWS::StackName", "VPCId" ]]
+  APIIdentityDatabaseEndpoint:
+    Description: 'Connection endpoint for the database'
+    Value: !GetAtt APIIdentityDatabase.Endpoint.Address
