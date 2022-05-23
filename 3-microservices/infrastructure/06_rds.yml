@@ -2,11 +2,11 @@ AWSTemplateFormatVersion: 2010-09-09
 Description: Part 2 - Add a database with CloudFormation
 
 Parameters:
-  AvailabilityZone:
-    Type: AWS::EC2::AvailabilityZone::Name
-    Description: 'AZ'
-    # Default: "ap-southeast-1"
-    AllowedValues: [ap-southeast-1]
+  # AvailabilityZone:
+  #   Type: AWS::EC2::AvailabilityZone::Name
+  #   Description: 'AZ'
+  #   # Default: "ap-southeast-1"
+  #   AllowedValues: [ap-southeast-1]
 
   EnvironmentType:
     Description: 'Specify the Environment type of the stack.'
