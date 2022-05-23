@@ -68,13 +68,13 @@ Mappings:
       CIDR: '10.0.0.0/24'
     PublicTwo:
       CIDR: '10.0.1.0/24'
-    EnvironmentToInstanceType:
-      development:
-        InstanceType: t2.nano
-      staging:
-        InstanceType: t2.micro
-      prod:
-        InstanceType: t2.small
+  EnvironmentToInstanceType:
+    development:
+      InstanceType: t2.nano
+    staging:
+      InstanceType: t2.micro
+    prod:
+      InstanceType: t2.small
 
 Resources:
   # VPC into which stack instances will be placed
