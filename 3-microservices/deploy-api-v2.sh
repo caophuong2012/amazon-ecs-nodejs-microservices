@@ -2,7 +2,6 @@
 
 REGION=$1
 STACK_NAME=$2
-ECR_REPOSITORY=awst-api-v2
 
 cd ./3-microservices
 
@@ -57,7 +56,7 @@ do
 	printf "${PRIMARY}* Finding ECR repository for service \`${SERVICE_NAME}\`${NC}\n";
 	REPO=`aws ecr describe-repositories \
 		--region $REGION \
-		--repository-names "$ECR_REPOSITORY/$SERVICE_NAME" \
+		--repository-names "$SERVICE_NAME" \
 		--query "repositories[0].repositoryUri" \
 		--output text`
 			
@@ -67,7 +66,7 @@ do
 
 		REPO=`aws ecr create-repository \
 			--region $REGION \
-			--repository-name "$ECR_REPOSITORY/$SERVICE_NAME" \
+			--repository-name "$SERVICE_NAME" \
 			--query "repository.repositoryUri" \
 			--output text`
 		printf "${PRIMARY}* Getting ECR repository: \`${REPO}\`${NC}\n"
@@ -90,7 +89,7 @@ do
 	CONTAINER_DEFINITIONS=$(cat <<-EOF
 		[{
 			"name": "$SERVICE_NAME",
-			"image": "$ECR_REPOSITORY/$REPO:$TAG",
+			"image": "$REPO:$TAG",
 			"cpu": 256,
 			"memory": 256,
 			"portMappings": [{
