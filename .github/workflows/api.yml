@@ -58,7 +58,7 @@ jobs:
       - name: Deploy to AWS CloudFormation
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
-          name: $DEVELOPMENT_ECS_SERVICE
+          name: ${{ env.DEVELOPMENT_ECS_SERVICE }}
           template: 3-microservices/infrastructure/ecs.yml
           no-fail-on-empty-changeset: "1"
       
