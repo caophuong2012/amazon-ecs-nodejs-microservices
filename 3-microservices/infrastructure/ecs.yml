@@ -12,9 +12,9 @@ Parameters:
     Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
     Description: 'The ID of the AMI.'
     Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
-  KeyPairName:
-    Type: String
-    Description: The name of an existing Amazon EC2 key pair in this region to use to SSH into the Amazon EC2 instances.
+  # KeyPairName:
+  #   Type: String
+  #   Description: The name of an existing Amazon EC2 key pair in this region to use to SSH into the Amazon EC2 instances.
 
   DBInstanceIdentifier:
     Type: String
