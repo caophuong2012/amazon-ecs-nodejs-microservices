@@ -7,9 +7,7 @@ ECR_REPOSITORY=awst-api-v2
 cd ./3-microservices
 
 DEPLOYABLE_SERVICES=(
-	users
-	threads
-	posts
+	identity
 );
 
 PRIMARY='\033[0;34m'
