@@ -339,6 +339,10 @@ Resources:
         ToPort: 5432
         SourceSecurityGroupName:
           Ref: WebAppSecurityGroup
+      - IpProtocol: tcp
+        FromPort: 5432
+        ToPort: 5432
+        CidrIp: 172.31.0.0/16
       Tags:
         - Key: Name
           Value: !Join [ '-', [ api-identity-db-security-group, !Ref EnvironmentType ] ]
