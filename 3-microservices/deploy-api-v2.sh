@@ -103,6 +103,7 @@ do
 		}]
 	EOF
 	)
+	printf "${CONTAINER_DEFINITIONS}"
 
 	TASK_DEFINITION_ARN=`aws ecs register-task-definition \
 		--region $REGION \
