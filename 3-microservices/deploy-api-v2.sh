@@ -213,6 +213,8 @@ do
 	else
 		# The service already existed, just update the existing service.
 		printf "${PRIMARY}* Updating service \`${SERVICE_NAME}\` with task definition \`${TASK_DEFINITION_ARN}\`${NC}\n";
+		printf "${PRIMARY}* CLUSTER_NAME \`${CLUSTER_NAME}\` with task definition \`${TASK_DEFINITION_ARN}\`${NC}\n";
+
 		RESULT=`aws ecs update-service \
 			--region $REGION \
 			--cluster $CLUSTER_NAME \
