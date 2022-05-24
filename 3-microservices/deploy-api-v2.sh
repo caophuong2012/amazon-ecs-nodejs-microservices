@@ -119,6 +119,8 @@ do
 		--services $SERVICE_NAME \
 		--query "services[0].status" \
 		--output text`
+	printf "${STATUS}"
+
 
 	if [ "$STATUS" != "ACTIVE" ]; then
 		# New service that needs to be deployed because it hasn't
