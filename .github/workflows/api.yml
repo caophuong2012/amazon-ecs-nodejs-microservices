@@ -12,18 +12,18 @@ on:
 env:
   AWS_REGION: ap-southeast-1
   ECR_REPOSITORY: artwallst/api
-  DEVELOPMENT_ECS_SERVICE: development-api-service
-  DEVELOPMENT_ECS_CLUSTER: development-cluster
+  DEVELOPMENT_ECS_SERVICE: api-service-development
+  DEVELOPMENT_ECS_CLUSTER: cluster-development
   DEVELOPMENT_ECS_TASK_DEFINITION: awst-infra/templates/development/task_definition/api.json
-  DEVELOPMENT_CONTAINER_NAME: development-api-container
-  STAGING_ECS_SERVICE: staging-api-service
-  STAGING_ECS_CLUSTER: staging-cluster
+  DEVELOPMENT_CONTAINER_NAME: api-container-development
+  STAGING_ECS_SERVICE: api-service-staging
+  STAGING_ECS_CLUSTER: cluster-staging
   STAGING_ECS_TASK_DEFINITION: awst-infra/templates/staging/task_definition/api.json
-  STAGING_CONTAINER_NAME: staging-api-container
-  PRODUCTION_ECS_SERVICE: production-api-service
-  PRODUCTION_ECS_CLUSTER: production-cluster
+  STAGING_CONTAINER_NAME: api-container-staging
+  PRODUCTION_ECS_SERVICE: api-service-production
+  PRODUCTION_ECS_CLUSTER: cluster-production
   PRODUCTION_ECS_TASK_DEFINITION: awst-infra/templates/production/task_definition/api.json
-  PRODUCTION_CONTAINER_NAME: production-api-container
+  PRODUCTION_CONTAINER_NAME: api-container-production
 
 defaults:
   run:
