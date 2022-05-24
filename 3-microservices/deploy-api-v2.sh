@@ -200,6 +200,9 @@ do
 		else
 			# This service doesn't have a web interface, just create it without load balancer settings
 			printf "${PRIMARY}* Creating new background service \`${SERVICE_NAME}\`${NC}\n";
+			printf "CLUSTER NAME: ${CLUSTER_NAME}"
+			printf "SERVICE NAME: ${SERVICE_NAME}"
+			printf "TASK DEFINITION ARN: ${TASK_DEFINITION_ARN}"
 			RESULT=`aws ecs create-service \
 				--region $REGION \
 				--cluster $CLUSTER_NAME \
