@@ -58,7 +58,7 @@ jobs:
       - name: Deploy to AWS CloudFormation
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
-          name: API-v2-2
+          name: $DEVELOPMENT_ECS_SERVICE
           template: 3-microservices/infrastructure/ecs.yml
           no-fail-on-empty-changeset: "1"
       
@@ -100,7 +100,7 @@ jobs:
         env:
           REGION: ${{ env.AWS_REGION }}
         run: |
-          ./3-microservices/deploy.sh $REGION $DEVELOPMENT_ECS_SERVICE
+          ./3-microservices/deploy-api-v2.sh $REGION $DEVELOPMENT_ECS_SERVICE
 
   deploy-staging:
     name: Deploy To Staging
@@ -132,7 +132,7 @@ jobs:
         env:
           REGION: ${{ env.AWS_REGION }}
         run: |
-          ./3-microservices/deploy.sh $REGION $DEVELOPMENT_ECS_SERVICE
+          ./3-microservices/deploy-api-v2.sh $REGION $DEVELOPMENT_ECS_SERVICE
 
   deploy-production:
     name: Deploy To Production
@@ -163,4 +163,4 @@ jobs:
         env:
           REGION: ${{ env.AWS_REGION }}
         run: |
-          ./3-microservices/deploy.sh $REGION $DEVELOPMENT_ECS_SERVICE
+          ./3-microservices/deploy-api-v2.sh $REGION $DEVELOPMENT_ECS_SERVICE
