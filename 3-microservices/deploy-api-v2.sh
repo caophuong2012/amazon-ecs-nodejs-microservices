@@ -101,7 +101,8 @@ do
 		}]
 	EOF
 	)
-	printf "${CONTAINER_DEFINITIONS}"
+	printf "${PRIMARY}* CONTAINER_DEFINITIONS: \`${CONTAINER_DEFINITIONS}\`${NC}\n";
+
 
 	TASK_DEFINITION_ARN=`aws ecs register-task-definition \
 		--region $REGION \
@@ -110,6 +111,8 @@ do
 		--query "taskDefinition.taskDefinitionArn" \
 		--output text`
 
+	printf "${PRIMARY}* TASK_DEFINITION_ARN: \`${TASK_DEFINITION_ARN}\`${NC}\n";
+
 	# Ensure that the service exists in ECS
 	STATUS=`aws ecs describe-services \
 		--region $REGION \
@@ -117,8 +120,7 @@ do
 		--services $SERVICE_NAME \
 		--query "services[0].status" \
 		--output text`
-	printf "${STATUS}"
-
+	printf "${PRIMARY}* STATUS: \`${STATUS}\`${NC}\n";
 
 	if [ "$STATUS" != "ACTIVE" ]; then
 		# New service that needs to be deployed because it hasn't
