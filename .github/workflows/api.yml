@@ -95,12 +95,25 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           role-external-id: ${{ secrets.AWS_ROLE_EXTERNAL_ID }}
 
-      - name: Run app deployment
+      - name: Run app identity
         id: app-deployment
         env:
           REGION: ${{ env.AWS_REGION }}
         run: |
           ./3-microservices/deploy-api-v2.sh $REGION $DEVELOPMENT_ECS_SERVICE
+      - name: Run app creator
+        id: app-deployment
+        env:
+          REGION: ${{ env.AWS_REGION }}
+        run: |
+          ./3-microservices/deploy-api-v2-creator.sh $REGION $DEVELOPMENT_ECS_SERVICE
+      - name: Run app collection
+        id: app-deployment
+        env:
+          REGION: ${{ env.AWS_REGION }}
+        run: |
+          ./3-microservices/deploy-api-v2-collection.sh $REGION $DEVELOPMENT_ECS_SERVICE
+        
 
   deploy-staging:
     name: Deploy To Staging
