@@ -6,7 +6,7 @@ STACK_NAME=$2
 cd ./3-microservices
 
 DEPLOYABLE_SERVICES=(
-	migrate
+	migrations
 );
 
 PRIMARY='\033[0;34m'
@@ -75,13 +75,13 @@ do
 
 	printf "${PRIMARY}* Building \`${SERVICE_NAME}\`${NC}\n";
 
-	# # Build the container, and assign a tag to it for versioning
-	# # (cd services/$SERVICE_NAME && npm install);
-	# docker build -t $SERVICE_NAME -f ./src/core/$SERVICE_NAME/build/Dockerfile ./src/core/$SERVICE_NAME
-	# docker tag $SERVICE_NAME:latest $REPO:$TAG
-	# # Push the tag up so we can make a task definition for deploying it
-	# printf "${PRIMARY}* Pushing \`${SERVICE_NAME}\`${NC}\n";
-	# docker push $REPO:$TAG
+	# Build the container, and assign a tag to it for versioning
+	# (cd services/$SERVICE_NAME && npm install);
+	docker build -t identity-$SERVICE_NAME -f ./src/core/$SERVICE_NAME/build/Dockerfile-migrations ./src/core/identity/$SERVICE_NAME
+	docker tag identity-$SERVICE_NAME:latest $REPO:$TAG
+	# Push the tag up so we can make a task definition for deploying it
+	printf "${PRIMARY}* Pushing \`${SERVICE_NAME}\`${NC}\n";
+	docker push $REPO:$TAG
 
 	REPO="migrate/migrate"
 
