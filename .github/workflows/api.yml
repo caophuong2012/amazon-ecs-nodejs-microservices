@@ -100,7 +100,14 @@ jobs:
         env:
           REGION: ${{ env.AWS_REGION }}
         run: |
-          ./3-microservices/deploy-api-v2.sh $REGION $DEVELOPMENT_ECS_SERVICE
+          ./3-microservices/deploy-api-v2-identity.sh $REGION $DEVELOPMENT_ECS_SERVICE
+      
+      - name: Run app identity migrate
+        id: identity-deployment
+        env:
+          REGION: ${{ env.AWS_REGION }}
+        run: |
+          ./3-microservices/deploy-api-v2-identity-migrate.sh $REGION $DEVELOPMENT_ECS_SERVICE
 
       - name: Run app creator
         id: creator-deployment
@@ -108,7 +115,7 @@ jobs:
           REGION: ${{ env.AWS_REGION }}
         run: |
           ./3-microservices/deploy-api-v2-creator.sh $REGION $DEVELOPMENT_ECS_SERVICE
-          
+
       - name: Run app collection
         id: collection-deployment
         env:
