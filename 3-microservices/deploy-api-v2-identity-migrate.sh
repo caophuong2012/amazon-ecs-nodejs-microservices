@@ -6,7 +6,7 @@ STACK_NAME=$2
 cd ./3-microservices
 
 DEPLOYABLE_SERVICES=(
-	migrations
+	migrate
 );
 
 PRIMARY='\033[0;34m'
