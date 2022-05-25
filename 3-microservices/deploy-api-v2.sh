@@ -104,6 +104,7 @@ do
                 {
                     "name": "DB_URL",
 					"value": "postgres://postgres:ijSEnURsCCGfE2K@api-identity-db.cutawwotu1jb.ap-southeast-1.rds.amazonaws.com:5432/APIIdentityDBSecurityzdevelopment?sslmode=disable"
+				},
 				{
                     "name": "MAX_OPEN_CONNS",
                     "value": "100"
