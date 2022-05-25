@@ -94,7 +94,7 @@ do
 			"memory": 256,
 			"portMappings": [{
 				"containerPort": 3000,
-				"hostPort": 3000
+				"hostPort": 3001
 			}],
 			"environment": [
 				{
