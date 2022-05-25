@@ -103,7 +103,7 @@ jobs:
           ./3-microservices/deploy-api-v2-identity.sh $REGION $DEVELOPMENT_ECS_SERVICE
       
       - name: Run app identity migrate
-        id: identity-deployment
+        id: identity-migrate-deployment
         env:
           REGION: ${{ env.AWS_REGION }}
         run: |
