@@ -96,6 +96,52 @@ do
 				"containerPort": 3000,
 				"hostPort": 0
 			}],
+			"environment": [
+                {
+                    "name": "DB_HOST",
+                    "value": "api-identity-db.cutawwotu1jb.ap-southeast-1.rds.amazonaws.com"
+                },
+				{
+                    "name": "DB_NAME",
+                    "value": "APIIdentityDBSecurityzdevelopment"
+                },
+				{
+                    "name": "DB_PORT",
+                    "value": "5432"
+                },
+				{
+                    "name": "DB_USER",
+                    "value": "postgres"
+                },
+				{
+                    "name": "DB_PASS",
+                    "value": "ijSEnURsCCGfE2K"
+                },
+				{
+                    "name": "MAX_OPEN_CONNS",
+                    "value": "100"
+                },
+				{
+                    "name": "AUTH0_DOMAIN",
+                    "value": "dev-97wck5ed.us.auth0.com"
+                },
+				{
+                    "name": "AUTH0_AUDIENCE",
+                    "value": "localhost:3001/identity"
+                },
+				{
+                    "name": "AUTH0_MANAGEMENT_CLIENT_ID",
+                    "value": "XKzO7YtbQNDusUS9T0bk0rP5Ljk1JVST"
+                },
+				{
+                    "name": "AUTH0_MANAGEMENT_CLIENT_SECRET",
+                    "value": "S_TkA2fTKjs0rkeXwSLFC-EHz0bkYKBghVBhCez-jaHz0divxcCfnmWYafWiUjbF"
+                },
+				{
+                    "name": "AUTH0_CREATOR_ROLE_ID",
+                    "value": "rol_sQdSQqSl71JoJGpX"
+                }
+            ],
 			"essential": true
 		}]
 	EOF
