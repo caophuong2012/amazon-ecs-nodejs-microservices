@@ -74,6 +74,8 @@ do
 	fi
 
 	printf "${PRIMARY}* Building \`${SERVICE_NAME}\`${NC}\n";
+	printf "${PRIMARY}* Building \`${REPO}\`${NC}\n";
+
 
 	# Build the container, and assign a tag to it for versioning
 	# (cd services/$SERVICE_NAME && npm install);
