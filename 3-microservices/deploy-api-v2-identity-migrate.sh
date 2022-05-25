@@ -77,7 +77,7 @@ do
 
 	# Build the container, and assign a tag to it for versioning
 	# (cd services/$SERVICE_NAME && npm install);
-	docker build -t identity-$SERVICE_NAME -f ./src/core/migrations/build/Dockerfile-migrations ./src/core/identity/migrations
+	docker build -t identity-$SERVICE_NAME -f ./src/core/identity/build/Dockerfile-migrations ./src/core/identity/migrations
 	docker tag identity-$SERVICE_NAME:latest $REPO:$TAG
 	# Push the tag up so we can make a task definition for deploying it
 	printf "${PRIMARY}* Pushing \`${SERVICE_NAME}\`${NC}\n";
