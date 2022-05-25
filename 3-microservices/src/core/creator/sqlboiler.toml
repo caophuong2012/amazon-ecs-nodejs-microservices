@@ -1,0 +1,12 @@
+pkgname="orm"
+no-tests="true"
+output="internal/databases/orm"
+[psql]
+  dbname="awstdev_creator"
+  host="localhost"
+  port=5433
+  user="postgres"
+  pass="postgres"
+  sslmode="disable"
+  whitelist=["store_fronts"]
+  schema="public"

@@ -1,0 +1,57 @@
+version: '3.8'
+services:
+  
+  api_awstdev_collection:
+    image: api_awstdev_collection
+    container_name: api_awstdev_collection
+    restart: on-failure 
+    build:
+      dockerfile: build/Dockerfile
+      context: .
+    ports:
+      - 3002:3002
+    environment:
+      DB_URL: postgres://postgres:postgres@db_awstdev_collection:5432/awstdev_collection?sslmode=disable
+      API_PORT: 3002
+      WAIT_HOSTS: db_awstdev_collection:5432
+    networks:
+      - new  
+    links: 
+      - db_awstdev_collection   
+
+  migrate:
+    container_name: awstdev_collection_migrate
+    image: migrate/migrate
+    depends_on:
+      - db_awstdev_collection
+    restart: on-failure  
+    networks:
+      - new
+    volumes:
+      - ./migrations:/migrations
+    command: -path=/migrations -database postgres://postgres:postgres@db_awstdev_collection:5432/awstdev_collection?sslmode=disable up
+    links: 
+      - db_awstdev_collection
+
+  db_awstdev_collection:
+    container_name: db_awstdev_collection
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=awstdev_collection
+    ports:
+      - '5434:5432'
+    networks:
+      new:
+        aliases:
+          - database      
+    volumes: 
+      - db:/var/lib/postgresql/data
+  
+volumes:
+  db:
+    driver: local
+networks:
+    new:    

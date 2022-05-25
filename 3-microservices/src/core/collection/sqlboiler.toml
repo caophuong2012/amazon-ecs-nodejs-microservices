@@ -1,0 +1,12 @@
+pkgname="orm"
+no-tests="true"
+output="internal/databases/orm"
+[psql]
+  dbname="awstdev_collection"
+  host="localhost"
+  port=5434
+  user="postgres"
+  pass="postgres"
+  sslmode="disable"
+  whitelist=["collections"]
+  schema="public"

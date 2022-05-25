@@ -77,7 +77,7 @@ do
 
 	# Build the container, and assign a tag to it for versioning
 	# (cd services/$SERVICE_NAME && npm install);
-	docker build -t $SERVICE_NAME -f ./services/$SERVICE_NAME/build/Dockerfile ./services/$SERVICE_NAME
+	docker build -t $SERVICE_NAME -f ./src/core/$SERVICE_NAME/build/Dockerfile ./src/core/$SERVICE_NAME
 	docker tag $SERVICE_NAME:latest $REPO:$TAG
 	# Push the tag up so we can make a task definition for deploying it
 	printf "${PRIMARY}* Pushing \`${SERVICE_NAME}\`${NC}\n";

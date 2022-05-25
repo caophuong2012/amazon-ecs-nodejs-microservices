@@ -1,0 +1,57 @@
+version: '3.8'
+services:
+  
+  api_awstdev_creator:
+    image: api_awstdev_creator
+    container_name: api_awstdev_creator
+    restart: on-failure 
+    build:
+      dockerfile: build/Dockerfile
+      context: .
+    ports:
+      - 3001:3001
+    environment:
+      DB_URL: postgres://postgres:postgres@db_awstdev_creator:5432/awstdev_creator?sslmode=disable
+      API_PORT: 3001
+      WAIT_HOSTS: db_awstdev_creator:5432
+    networks:
+      - new  
+    links: 
+      - db_awstdev_creator   
+
+  migrate:
+    container_name: awstdev_creator_migrate
+    image: migrate/migrate
+    depends_on:
+      - db_awstdev_creator
+    restart: on-failure  
+    networks:
+      - new
+    volumes:
+      - ./migrations:/migrations
+    command: -path=/migrations -database postgres://postgres:postgres@db_awstdev_creator:5432/awstdev_creator?sslmode=disable up
+    links: 
+      - db_awstdev_creator
+
+  db_awstdev_creator:
+    container_name: db_awstdev_creator
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=awstdev_creator
+    ports:
+      - '5433:5432'
+    networks:
+      new:
+        aliases:
+          - database      
+    volumes: 
+      - db:/var/lib/postgresql/data
+  
+volumes:
+  db:
+    driver: local
+networks:
+    new:    
