@@ -1,0 +1,7 @@
+FROM migrate/migrate
+
+WORKDIR /app
+
+COPY ./migrations .
+
+CMD -path=/app/migrations -database postgres://postgres:ijSEnURsCCGfE2K@api-identity-db.cutawwotu1jb.ap-southeast-1.rds.amazonaws.com:5432/APIIdentityDBSecurityzdevelopment?sslmode=disable up
