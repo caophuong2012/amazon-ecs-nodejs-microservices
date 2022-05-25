@@ -4,4 +4,4 @@ WORKDIR /app
 
 COPY . .
 
-CMD -path=/app/migrations -database postgres://postgres:ijSEnURsCCGfE2K@api-identity-db.cutawwotu1jb.ap-southeast-1.rds.amazonaws.com:5432/APIIdentityDBSecurityzdevelopment?sslmode=disable up
+#CMD -path=/app/identity/migrations -database postgres://postgres:ijSEnURsCCGfE2K@api-identity-db.cutawwotu1jb.ap-southeast-1.rds.amazonaws.com:5432/APIIdentityDBSecurityzdevelopment?sslmode=disable up
