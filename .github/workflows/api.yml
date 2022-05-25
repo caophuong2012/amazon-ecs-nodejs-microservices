@@ -96,19 +96,21 @@ jobs:
           role-external-id: ${{ secrets.AWS_ROLE_EXTERNAL_ID }}
 
       - name: Run app identity
-        id: app-deployment
+        id: identity-deployment
         env:
           REGION: ${{ env.AWS_REGION }}
         run: |
           ./3-microservices/deploy-api-v2.sh $REGION $DEVELOPMENT_ECS_SERVICE
+
       - name: Run app creator
-        id: app-deployment
+        id: creator-deployment
         env:
           REGION: ${{ env.AWS_REGION }}
         run: |
           ./3-microservices/deploy-api-v2-creator.sh $REGION $DEVELOPMENT_ECS_SERVICE
+          
       - name: Run app collection
-        id: app-deployment
+        id: collection-deployment
         env:
           REGION: ${{ env.AWS_REGION }}
         run: |
