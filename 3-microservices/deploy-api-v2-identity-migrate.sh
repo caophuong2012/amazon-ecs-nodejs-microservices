@@ -84,7 +84,7 @@ do
 	printf "${PRIMARY}* Pushing \`${SERVICE_NAME}\`${NC}\n";
 	docker push $REPO:$TAG
 
-	REPO="migrate/migrate"
+	# REPO="migrate/migrate"
 
 	printf "${PRIMARY}* Creating new task definition for \`${SERVICE_NAME}\`${NC}\n";
 
