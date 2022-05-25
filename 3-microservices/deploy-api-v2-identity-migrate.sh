@@ -3,7 +3,7 @@
 REGION=$1
 STACK_NAME=$2
 
-cd ./3-microservices
+cd ./3-microservices/src/core
 
 DEPLOYABLE_SERVICES=(
 	migrate
@@ -77,8 +77,8 @@ do
 
 	# Build the container, and assign a tag to it for versioning
 	# (cd services/$SERVICE_NAME && npm install);
-	docker build -t identity-$SERVICE_NAME -f ./src/core/identity/build/Dockerfile-migrations ./src/core/identity/migrations
-	docker tag identity-$SERVICE_NAME:latest $REPO:$TAG
+	docker build -t $SERVICE_NAME -f ./identity/build/Dockerfile-migrations ./identity/migrations
+	docker tag $SERVICE_NAME:latest $REPO:$TAG
 	# Push the tag up so we can make a task definition for deploying it
 	printf "${PRIMARY}* Pushing \`${SERVICE_NAME}\`${NC}\n";
 	docker push $REPO:$TAG
