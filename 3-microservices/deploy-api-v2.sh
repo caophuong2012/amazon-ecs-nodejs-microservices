@@ -97,26 +97,13 @@ do
 				"hostPort": 0
 			}],
 			"environment": [
+				{
+                    "name": "API_PORT",
+                    "value": "3000"
+                },
                 {
-                    "name": "DB_HOST",
-                    "value": "api-identity-db.cutawwotu1jb.ap-southeast-1.rds.amazonaws.com"
-                },
-				{
-                    "name": "DB_NAME",
-                    "value": "APIIdentityDBSecurityzdevelopment"
-                },
-				{
-                    "name": "DB_PORT",
-                    "value": "5432"
-                },
-				{
-                    "name": "DB_USER",
-                    "value": "postgres"
-                },
-				{
-                    "name": "DB_PASS",
-                    "value": "ijSEnURsCCGfE2K"
-                },
+                    "name": "DB_URL",
+					"value": "postgres://postgres:ijSEnURsCCGfE2K@api-identity-db.cutawwotu1jb.ap-southeast-1.rds.amazonaws.com:5432/APIIdentityDBSecurityzdevelopment?sslmode=disable"
 				{
                     "name": "MAX_OPEN_CONNS",
                     "value": "100"
