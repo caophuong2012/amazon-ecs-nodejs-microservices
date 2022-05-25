@@ -91,7 +91,7 @@ do
 	CONTAINER_DEFINITIONS=$(cat <<-EOF
 		[{
 			"name": "$SERVICE_NAME",
-			"image": "$REPO:latest",
+			"image": "$REPO",
 			"cpu": 256,
 			"memory": 256,
 			"portMappings": [{
