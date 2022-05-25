@@ -7,6 +7,8 @@ cd ./3-microservices
 
 DEPLOYABLE_SERVICES=(
 	identity
+	creator
+	collection
 );
 
 PRIMARY='\033[0;34m'
