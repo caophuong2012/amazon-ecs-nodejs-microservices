@@ -99,31 +99,31 @@ do
 		"secrets": [
 			{
 				"name": "API_PORT",
-				"valueFrom": "arn:aws:ssm:ap-southeast-1:074950285369:parameter//devopscomvn/api/development/IDENTITY_API_PORT"
+				"valueFrom": "arn:aws:ssm:ap-southeast-1:074950285369:parameter/devopscomvn/api/development/IDENTITY_API_PORT"
 			},
 			{
 				"name": "DB_URL",
-				"valueFrom": "arn:aws:ssm:ap-southeast-1:074950285369:parameter//devopscomvn/api/development/IDENTITY_DB_URL"
+				"valueFrom": "arn:aws:ssm:ap-southeast-1:074950285369:parameter/devopscomvn/api/development/IDENTITY_DB_URL"
 			},
 			{
 				"name": "AUTH0_DOMAIN",
-				"valueFrom": "arn:aws:ssm:ap-southeast-1:074950285369:parameter//devopscomvn/api/development/IDENTITY_AUTH0_DOMAIN"
+				"valueFrom": "arn:aws:ssm:ap-southeast-1:074950285369:parameter/devopscomvn/api/development/IDENTITY_AUTH0_DOMAIN"
 			},
 			{
 				"name": "AUTH0_AUDIENCE",
-				"valueFrom": "arn:aws:ssm:ap-southeast-1:074950285369:parameter//devopscomvn/api/development/IDENTITY_AUTH0_AUDIENCE"
+				"valueFrom": "arn:aws:ssm:ap-southeast-1:074950285369:parameter/devopscomvn/api/development/IDENTITY_AUTH0_AUDIENCE"
 			},
 			{
 				"name": "AUTH0_MANAGEMENT_CLIENT_ID",
-				"valueFrom": "arn:aws:ssm:ap-southeast-1:074950285369:parameter//devopscomvn/api/development/IDENTITY_AUTH0_MANAGEMENT_CLIENT_ID"
+				"valueFrom": "arn:aws:ssm:ap-southeast-1:074950285369:parameter/devopscomvn/api/development/IDENTITY_AUTH0_MANAGEMENT_CLIENT_ID"
 			},
 			{
 				"name": "AUTH0_MANAGEMENT_CLIENT_SECRET",
-				"valueFrom": "arn:aws:ssm:ap-southeast-1:074950285369:parameter//devopscomvn/api/development/IDENTITY_AUTH0_MANAGEMENT_CLIENT_SECRET"
+				"valueFrom": "arn:aws:ssm:ap-southeast-1:074950285369:parameter/devopscomvn/api/development/IDENTITY_AUTH0_MANAGEMENT_CLIENT_SECRET"
 			},
 			{
 				"name": "AUTH0_CREATOR_ROLE_ID",
-				"valueFrom": "arn:aws:ssm:ap-southeast-1:074950285369:parameter//devopscomvn/api/development/IDENTITY_AUTH0_CREATOR_ROLE_ID"
+				"valueFrom": "arn:aws:ssm:ap-southeast-1:074950285369:parameter/devopscomvn/api/development/IDENTITY_AUTH0_CREATOR_ROLE_ID"
 			}
 		],
 		"essential": true
