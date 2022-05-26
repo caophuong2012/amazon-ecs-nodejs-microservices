@@ -95,42 +95,38 @@ do
 			"portMappings": [{
 				"containerPort": 3000,
 				"hostPort": 3000
-			}],
-			"environment": [
-				{
-                    "name": "API_PORT",
-                    "value": "3000"
-                },
-                {
-                    "name": "DB_URL",
-					"value": "postgres://postgres:ijSEnURsCCGfE2K@api-identity-db.cutawwotu1jb.ap-southeast-1.rds.amazonaws.com:5432/APIIdentityDBSecurityzdevelopment?sslmode=disable"
-				},
-				{
-                    "name": "MAX_OPEN_CONNS",
-                    "value": "100"
-                },
-				{
-                    "name": "AUTH0_DOMAIN",
-                    "value": "dev-97wck5ed.us.auth0.com"
-                },
-				{
-                    "name": "AUTH0_AUDIENCE",
-                    "value": "localhost:3001/identity"
-                },
-				{
-                    "name": "AUTH0_MANAGEMENT_CLIENT_ID",
-                    "value": "XKzO7YtbQNDusUS9T0bk0rP5Ljk1JVST"
-                },
-				{
-                    "name": "AUTH0_MANAGEMENT_CLIENT_SECRET",
-                    "value": "S_TkA2fTKjs0rkeXwSLFC-EHz0bkYKBghVBhCez-jaHz0divxcCfnmWYafWiUjbF"
-                },
-				{
-                    "name": "AUTH0_CREATOR_ROLE_ID",
-                    "value": "rol_sQdSQqSl71JoJGpX"
-                }
-            ],
-			"essential": true
+		}],
+		"secrets": [
+			{
+				"name": "API_PORT",
+				"valueFrom": "arn:aws:ssm:ap-southeast-1:074950285369:parameter//devopscomvn/api/development/IDENTITY_API_PORT"
+			},
+			{
+				"name": "DB_URL",
+				"valueFrom": "arn:aws:ssm:ap-southeast-1:074950285369:parameter//devopscomvn/api/development/IDENTITY_DB_URL"
+			},
+			{
+				"name": "AUTH0_DOMAIN",
+				"valueFrom": "arn:aws:ssm:ap-southeast-1:074950285369:parameter//devopscomvn/api/development/IDENTITY_AUTH0_DOMAIN"
+			},
+			{
+				"name": "AUTH0_AUDIENCE",
+				"valueFrom": "arn:aws:ssm:ap-southeast-1:074950285369:parameter//devopscomvn/api/development/IDENTITY_AUTH0_AUDIENCE"
+			},
+			{
+				"name": "AUTH0_MANAGEMENT_CLIENT_ID",
+				"valueFrom": "arn:aws:ssm:ap-southeast-1:074950285369:parameter//devopscomvn/api/development/IDENTITY_AUTH0_MANAGEMENT_CLIENT_ID"
+			},
+			{
+				"name": "AUTH0_MANAGEMENT_CLIENT_SECRET",
+				"valueFrom": "arn:aws:ssm:ap-southeast-1:074950285369:parameter//devopscomvn/api/development/IDENTITY_AUTH0_MANAGEMENT_CLIENT_SECRET"
+			},
+			{
+				"name": "AUTH0_CREATOR_ROLE_ID",
+				"valueFrom": "arn:aws:ssm:ap-southeast-1:074950285369:parameter//devopscomvn/api/development/IDENTITY_AUTH0_CREATOR_ROLE_ID"
+			}
+		],
+		"essential": true
 		}]
 	EOF
 	)

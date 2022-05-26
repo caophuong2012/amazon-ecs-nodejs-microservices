@@ -1,51 +1,61 @@
 #!/usr/bin/env bash
-
-# Write RDS demo parameters to Parameter Store
-
 # Put parameters into Parameter Store
 aws ssm put-parameter \
-  --name /awst/api/development/API_IDENTITY_DB_HOST \
+  --name /devopscomvn/api/development/IDENTITY_API_PORT \
   --type String \
-  --value "172.0.0.1" \
+  --value "3000" \
   --description "DB Host" \
   --overwrite
 
 aws ssm put-parameter \
-  --name /awst/api/development/API_IDENTITY_DB_NAME \
+  --name /devopscomvn/api/development/IDENTITY_DB_URL \
   --type String \
-  --value "db_identity" \
-  --description "DB Name" \
+  --value "postgres://postgres:ijSEnURsCCGfE2K@api-identity-db.cutawwotu1jb.ap-southeast-1.rds.amazonaws.com:5432/APIIdentityDBSecurityzdevelopment?sslmode=disable" \
+  --description "DB_URL" \
   --overwrite
 
 aws ssm put-parameter \
-  --name /awst/api/development/API_IDENTITY_DB_PORT \
+  --name /devopscomvn/api/development/IDENTITY_MAX_OPEN_CONNS \
   --type String \
-  --value "5432" \
-  --description "DB Port" \
+  --value "MAX_OPEN_CONNS" \
+  --description "MAX_OPEN_CONNS" \
   --overwrite
 
 aws ssm put-parameter \
-  --name /awst/api/development/API_IDENTITY_DB_USER \
+  --name /devopscomvn/api/development/IDENTITY_AUTH0_DOMAIN \
   --type String \
-  --value "identity" \
-  --description "DB User" \
+  --value "AUTH0_DOMAIN" \
+  --description "AUTH0_DOMAIN" \
   --overwrite
 
 aws ssm put-parameter \
-  --name /awst/api/development/API_IDENTITY_DB_PASS \
+  --name /devopscomvn/api/development/IDENTITY_AUTH0_AUDIENCE \
   --type String \
-  --value "password" \
-  --description "DB Password" \
+  --value "AUTH0_AUDIENCE" \
+  --description "AUTH0_AUDIENCE" \
   --overwrite
 
 aws ssm put-parameter \
-  --name /awst/api/development/API_IDENTITY_DB_MAX_OPEN_CONNS \
+  --name /devopscomvn/api/development/IDENTITY_AUTH0_MANAGEMENT_CLIENT_ID \
   --type String \
-  --value "100" \
-  --description "DB Maxe Open Connections" \
+  --value "AUTH0_MANAGEMENT_CLIENT_ID" \
+  --description "AUTH0_MANAGEMENT_CLIENT_ID" \
+  --overwrite
+
+aws ssm put-parameter \
+  --name /devopscomvn/api/development/IDENTITY_AUTH0_MANAGEMENT_CLIENT_SECRET \
+  --type String \
+  --value "AUTH0_MANAGEMENT_CLIENT_SECRET" \
+  --description "AUTH0_MANAGEMENT_CLIENT_SECRET" \
+  --overwrite
+
+aws ssm put-parameter \
+  --name /devopscomvn/api/development/IDENTITY_AUTH0_CREATOR_ROLE_ID \
+  --type String \
+  --value "AUTH0_CREATOR_ROLE_ID" \
+  --description "AUTH0_CREATOR_ROLE_ID" \
   --overwrite
 
 # Get parameters from Parameter Store
 aws ssm get-parameter \
-  --name /awst/api/development/API_IDENTITY_DB_HOST \
-  #--query Parameter.Value
+  --name /devopscomvn/api/development/IDENTITY_API_PORT
